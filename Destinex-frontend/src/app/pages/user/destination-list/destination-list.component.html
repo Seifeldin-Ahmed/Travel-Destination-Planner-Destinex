@@ -1,0 +1,145 @@
+<section class="head">
+  <div>
+    <p class="eyebrow">Discover</p>
+    <h1>Explore destinations</h1>
+    <p class="sub">Search by country name and press Enter, or browse the full catalog with pagination.</p>
+  </div>
+  <label class="search">
+    <span class="sr-only">Search by country name</span>
+    <input
+      type="search"
+      [(ngModel)]="countrySearch"
+      (keydown)="onSearchKeydown($event)"
+      placeholder="Country name — press Enter"
+      aria-label="Search destinations by country name"
+      autocomplete="off"
+    />
+  </label>
+</section>
+
+@if (message()) {
+  <p class="banner ok">{{ message() }}</p>
+}
+@if (error()) {
+  <p class="banner err">{{ error() }}</p>
+}
+
+@if (searchMode() === 'search') {
+  <p class="search-hint">
+    Showing results for “{{ countrySearch.trim() }}”.
+    <button type="button" class="linkish" (click)="clearSearch()">Clear and browse all</button>
+  </p>
+}
+
+@if (loading()) {
+  <p class="muted">Loading…</p>
+} @else {
+  <ul class="cards">
+    @for (d of items(); track d.id) {
+      <li class="card-row">
+        <a [routerLink]="['/destinations', d.id]" [queryParams]="detailReturnQuery()" class="card-main">
+          <div class="thumb flag-thumb">
+            @if (d.imageUrl) {
+              <img
+                [src]="d.imageUrl"
+                alt=""
+                role="presentation"
+                loading="lazy"
+                decoding="async"
+              />
+            } @else {
+              <div class="ph" aria-hidden="true">?</div>
+            }
+          </div>
+          <div class="meta">
+            <h2>{{ d.country }}</h2>
+            <p class="meta-line">{{ d.capital }} · {{ d.region }}</p>
+            <p class="pop-line">
+              <span class="pop-label">Population</span>
+              <span class="pop-value">{{ d.population | number }}</span>
+              <span class="pop-sep" aria-hidden="true">·</span>
+              <span class="pop-label">Currency</span>
+              <span class="pop-value">{{ d.currency }}</span>
+            </p>
+          </div>
+        </a>
+        @if (isAdmin()) {
+          <div class="admin-actions">
+            <button
+              type="button"
+              class="btn ghost star small"
+              [class.on]="wants(d.id)"
+              (click)="toggleWant(d.id, $event)"
+              [attr.aria-pressed]="wants(d.id)"
+              title="Wishlist"
+            >
+              ★
+            </button>
+            <button type="button" class="btn small" (click)="openEdit(d)">Edit</button>
+            <button type="button" class="btn small danger" (click)="deleteRow(d, $event)">Delete</button>
+          </div>
+        } @else {
+          <button
+            type="button"
+            class="btn ghost star"
+            [class.on]="wants(d.id)"
+            (click)="toggleWant(d.id, $event)"
+            [attr.aria-pressed]="wants(d.id)"
+            title="Save to wishlist"
+          >
+            ★
+          </button>
+        }
+      </li>
+    } @empty {
+      <li class="empty">No destinations found.</li>
+    }
+  </ul>
+
+  @if (searchMode() === 'browse') {
+    <div class="pager">
+      <button type="button" class="btn" (click)="prev()" [disabled]="!canPrev()">Previous</button>
+      <span class="muted">{{ pageLabel() }}</span>
+      <button type="button" class="btn" (click)="next()" [disabled]="loading() || !canNext()">Next</button>
+    </div>
+  }
+}
+
+@if (editing(); as dest) {
+  <div class="modal-backdrop" (click)="closeEdit()"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+    <h2 id="edit-title">Edit {{ dest.country }}</h2>
+    <form [formGroup]="form" (ngSubmit)="saveEdit()">
+      <label class="field">
+        <span>Name</span>
+        <input type="text" formControlName="name" />
+      </label>
+      <label class="field">
+        <span>Capital</span>
+        <input type="text" formControlName="capital" />
+      </label>
+      <label class="field">
+        <span>Region</span>
+        <input type="text" formControlName="region" />
+      </label>
+      <label class="field">
+        <span>Population</span>
+        <input type="number" formControlName="population" />
+      </label>
+      <label class="field">
+        <span>Currency</span>
+        <input type="text" formControlName="currency" />
+      </label>
+      <label class="field">
+        <span>Flag image URL (optional)</span>
+        <input type="url" formControlName="flag" placeholder="https://…png" />
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn" (click)="closeEdit()">Cancel</button>
+        <button type="submit" class="btn primary" [disabled]="busy() || form.invalid">
+          {{ busy() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </div>
+}

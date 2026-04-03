@@ -1,0 +1,87 @@
+<div class="auth-page">
+  <div class="auth-visual" aria-hidden="true">
+    <div class="glow"></div>
+    <div class="visual-card">
+      <span class="visual-logo">Destinex</span>
+      <p>Join travelers who save ideas today and book tomorrow.</p>
+    </div>
+  </div>
+  <div class="auth-panel scroll">
+    <a routerLink="/" class="back-home">← Destinex home</a>
+    <div class="panel-inner">
+      <h1>Create your account</h1>
+      <p class="hint">
+        Fields marked <abbr title="required">*</abbr> are required. Password must be 6+ characters with uppercase and
+        lowercase letters.
+      </p>
+
+      <form class="signup-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (validationSummary(); as sum) {
+          <p class="summary-err" role="alert">{{ sum }}</p>
+        }
+
+        <div class="row">
+          <label class="field" [class.is-invalid]="isFieldInvalid('firstName')" data-signup-field>
+            <span>First name <abbr class="req" title="required">*</abbr></span>
+            <input type="text" formControlName="firstName" autocomplete="given-name" aria-required="true" />
+            @if (fieldHint('firstName'); as hint) {
+              <span class="field-msg">{{ hint }}</span>
+            }
+          </label>
+          <label class="field" [class.is-invalid]="isFieldInvalid('lastName')" data-signup-field>
+            <span>Last name <abbr class="req" title="required">*</abbr></span>
+            <input type="text" formControlName="lastName" autocomplete="family-name" aria-required="true" />
+            @if (fieldHint('lastName'); as hint) {
+              <span class="field-msg">{{ hint }}</span>
+            }
+          </label>
+        </div>
+        <label class="field" [class.is-invalid]="isFieldInvalid('email')" data-signup-field>
+          <span>Email <abbr class="req" title="required">*</abbr></span>
+          <input type="email" formControlName="email" autocomplete="email" aria-required="true" />
+          @if (fieldHint('email'); as hint) {
+            <span class="field-msg">{{ hint }}</span>
+          }
+        </label>
+        <label class="field" [class.is-invalid]="isFieldInvalid('password')" data-signup-field>
+          <span>Password <abbr class="req" title="required">*</abbr></span>
+          <input type="password" formControlName="password" autocomplete="new-password" aria-required="true" />
+          @if (fieldHint('password'); as hint) {
+            <span class="field-msg">{{ hint }}</span>
+          }
+        </label>
+        <label class="field" [class.is-invalid]="isFieldInvalid('confirmPassword')" data-signup-field>
+          <span>Confirm password <abbr class="req" title="required">*</abbr></span>
+          <input type="password" formControlName="confirmPassword" autocomplete="new-password" aria-required="true" />
+          @if (fieldHint('confirmPassword'); as hint) {
+            <span class="field-msg">{{ hint }}</span>
+          }
+        </label>
+        @if (passwordMismatchHint(); as mh) {
+          <p class="err mismatch-err" role="alert">{{ mh }}</p>
+        }
+        <label class="field" [class.is-invalid]="isFieldInvalid('address')" data-signup-field>
+          <span>Address (optional)</span>
+          <input type="text" formControlName="address" />
+        </label>
+        <label class="field" [class.is-invalid]="isFieldInvalid('phoneNumber')" data-signup-field>
+          <span>Phone (optional, 11 digits)</span>
+          <input type="text" formControlName="phoneNumber" inputmode="numeric" autocomplete="tel" />
+          @if (fieldHint('phoneNumber'); as hint) {
+            <span class="field-msg">{{ hint }}</span>
+          }
+        </label>
+
+        @if (error(); as errMsg) {
+          <p class="err server-err" role="alert">{{ errMsg }}</p>
+        }
+
+        <button type="submit" class="btn primary wide" [disabled]="loading()">
+          {{ loading() ? 'Sending…' : 'Join Destinex' }}
+        </button>
+      </form>
+
+      <p class="footer">Already have an account? <a routerLink="/login">Sign in</a></p>
+    </div>
+  </div>
+</div>

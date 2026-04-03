@@ -1,0 +1,73 @@
+<div class="landing">
+  <header class="nav">
+    <span class="logo">Destinex</span>
+    <div class="nav-actions">
+      @if (auth.isAuthenticated()) {
+        <a routerLink="/destinations" class="btn ghost">Explore</a>
+        <button type="button" class="btn primary" (click)="logout()">Log out</button>
+      } @else {
+        <a routerLink="/login" class="link">Sign in</a>
+        <a routerLink="/signup" class="btn primary">Join free</a>
+      }
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Travel &amp; tourism, simplified</p>
+      <h1>Plan your next journey with <span class="brand">Destinex</span></h1>
+      <p class="lead">
+        Discover curated destinations, save favorites to your profile, and explore the world with a calm, modern
+        experience—whether you are dreaming or booking.
+      </p>
+      <div class="cta">
+        @if (auth.isAuthenticated()) {
+          <a routerLink="/destinations" class="btn primary large">Go to explore</a>
+          <a routerLink="/wishlist" class="btn ghost large">Saved places</a>
+        } @else {
+          <a routerLink="/signup" class="btn primary large">Create an account</a>
+          <a routerLink="/login" [queryParams]="{ returnUrl: '/destinations' }" class="btn ghost large"
+            >Sign in to explore</a
+          >
+        }
+      </div>
+      <ul class="stats">
+        <li><strong>Curated</strong><span>destination catalog</span></li>
+        <li><strong>Wishlists</strong><span>synced to your account</span></li>
+        <li><strong>Team tools</strong><span>for catalog curators</span></li>
+      </ul>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="orb"></div>
+      <div class="card-float">
+        <span class="pin">📍</span>
+        <p>Where to next?</p>
+        <small>Explore · Save · Go</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <article>
+      <h2>Explore</h2>
+      <p>Browse destinations with capital, region, population, and currency at a glance.</p>
+    </article>
+    <article>
+      <h2>Save</h2>
+      <p>Keep a personal wishlist of places you want to visit—stored securely on your account.</p>
+    </article>
+    <article>
+      <h2>Trust</h2>
+      <p>Secure sign-in with your backend; curators can enrich the collection from trusted sources.</p>
+    </article>
+  </section>
+
+  <footer class="foot">
+    <span>© Destinex</span>
+    @if (auth.isAuthenticated()) {
+      <a routerLink="/destinations">Explore</a>
+    } @else {
+      <a routerLink="/login" [queryParams]="{ returnUrl: '/destinations' }">Sign in</a>
+    }
+  </footer>
+</div>

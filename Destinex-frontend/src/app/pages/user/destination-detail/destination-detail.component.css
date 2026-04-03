@@ -1,0 +1,340 @@
+.back {
+  margin: 0 0 1rem;
+}
+
+.back a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back a:hover {
+  text-decoration: underline;
+}
+
+.banner.ok {
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid var(--border);
+}
+
+.state {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.loading-state .spinner {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  animation: spin 0.85s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.error-state h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.error-state p {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.showcase {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+}
+
+.showcase-hero {
+  position: relative;
+  min-height: 280px;
+  max-height: 420px;
+}
+
+/* Flag / banner image: centered, contained — avoids cropping and odd text bleed from bad assets */
+.hero-media.flag-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  max-height: 420px;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(165deg, #0b1120 0%, #1e293b 55%, #0f172a 100%);
+  padding: clamp(0.75rem, 3vw, 1.75rem);
+  box-sizing: border-box;
+}
+
+.hero-media.flag-frame img {
+  max-width: 100%;
+  max-height: min(340px, 50vh);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  flex-shrink: 0;
+}
+
+.hero-fallback {
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+}
+
+.hero-fallback .glyph {
+  font-size: 4rem;
+  opacity: 0.85;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem 1.75rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 20, 25, 0.25) 35%, rgba(15, 20, 25, 0.92) 100%);
+}
+
+.chip {
+  display: inline-block;
+  align-self: flex-start;
+  margin: 0 0 0.5rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  color: #e0f2fe;
+}
+
+.hero-overlay h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.hero-lead {
+  margin: 0.35rem 0 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.hero-lead-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+}
+
+.hero-lead-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.hero-population {
+  margin: 0.15rem 0 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.hero-population .hero-lead-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-currency-line {
+  margin: 0 0 0.85rem;
+  font-size: 1rem;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.hero-currency-line strong {
+  font-weight: 600;
+  color: #7dd3fc;
+  margin-right: 0.25rem;
+}
+
+.currency-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn.danger {
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--border));
+  color: var(--danger);
+}
+
+.btn.star.on,
+.btn.wish-cta.on {
+  color: #f5c542;
+  border-color: color-mix(in srgb, #f5c542 40%, var(--border));
+}
+
+.wish-cta {
+  font-weight: 600;
+}
+
+.facts-section {
+  padding: 1.35rem 1.5rem 1.6rem;
+  background: color-mix(in srgb, var(--bg) 65%, var(--surface));
+  border-top: 1px solid var(--border);
+}
+
+.facts-heading {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.facts-intro {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.fact {
+  padding: 1rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.fact-highlight {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.fact-currency {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+
+.fact-currency .fact-value {
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+.fact-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.fact-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.fact-hint {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 40;
+}
+
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  width: min(92vw, 420px);
+  max-height: 90dvh;
+  overflow: auto;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+.modal h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.field span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.field input {
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.muted {
+  color: var(--muted);
+}

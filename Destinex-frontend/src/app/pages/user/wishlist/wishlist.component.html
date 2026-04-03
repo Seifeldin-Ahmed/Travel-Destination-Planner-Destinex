@@ -1,0 +1,63 @@
+<section class="head">
+  <div>
+    <p class="eyebrow">Your collection</p>
+    <h1>Saved destinations</h1>
+    <p class="sub">Places you have marked as favorites—pick up where you left off.</p>
+  </div>
+  <div class="head-actions">
+    @if (items().length > 0) {
+      <button type="button" class="btn danger-outline" (click)="clearAll()" [disabled]="clearing()">
+        {{ clearing() ? 'Clearing…' : 'Clear all' }}
+      </button>
+    }
+    <a routerLink="/destinations" class="btn ghost">Back to explore</a>
+  </div>
+</section>
+
+@if (error()) {
+  <p class="banner err">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p class="muted">Loading your wishlist…</p>
+} @else if (items().length === 0) {
+  <div class="empty">
+    <h2>No saved places yet</h2>
+    <p class="muted">Explore destinations and tap the star to add them here.</p>
+    <a routerLink="/destinations" class="btn primary">Explore destinations</a>
+  </div>
+} @else {
+  <ul class="grid">
+    @for (d of items(); track d.id) {
+      <li>
+        <a [routerLink]="['/destinations', d.id]" class="tile">
+          <div class="tile-media flag-tile">
+            @if (d.imageUrl) {
+              <img [src]="d.imageUrl" alt="" role="presentation" loading="lazy" decoding="async" />
+            } @else {
+              <div class="ph">Destinex</div>
+            }
+          </div>
+          <div class="tile-body">
+            <h2>{{ d.country }}</h2>
+            <p>{{ d.capital }} · {{ d.region }}</p>
+            <p class="meta">
+              <span class="lbl">Population</span> {{ d.population | number }}
+              <span class="sep">·</span>
+              <span class="lbl">Currency</span> {{ d.currency }}
+            </p>
+          </div>
+          <button
+            type="button"
+            class="remove"
+            (click)="remove(d, $event)"
+            [disabled]="removing() === d.id"
+            title="Remove from wishlist"
+          >
+            ✕
+          </button>
+        </a>
+      </li>
+    }
+  </ul>
+}

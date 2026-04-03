@@ -1,0 +1,27 @@
+<div class="app">
+  <header class="top">
+    <a routerLink="/" class="brand">Destinex</a>
+    <nav class="nav">
+      <a routerLink="/" class="nav-home">Home</a>
+      <a
+        routerLink="/destinations"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        >Explore</a
+      >
+      <a routerLink="/wishlist" routerLinkActive="active">Saved</a>
+      @if (isAdmin()) {
+        <a routerLink="/admin/curate" routerLinkActive="active">Curate catalog</a>
+      }
+    </nav>
+    <div class="user">
+      @if (user(); as u) {
+        <span class="email" [title]="u.email">{{ u.email }}</span>
+        <button type="button" class="btn ghost" (click)="logout()">Log out</button>
+      }
+    </div>
+  </header>
+  <main class="main">
+    <router-outlet />
+  </main>
+</div>

@@ -1,0 +1,39 @@
+<div class="auth-page">
+  <div class="auth-visual" aria-hidden="true">
+    <div class="glow"></div>
+    <div class="visual-card">
+      <span class="visual-logo">Destinex</span>
+      <p>Your next chapter starts with a single destination.</p>
+    </div>
+  </div>
+  <div class="auth-panel">
+    <a routerLink="/" class="back-home">← Destinex home</a>
+    <div class="panel-inner">
+      <h1>Welcome back</h1>
+      <p class="hint">Sign in to explore destinations and manage your saved places.</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" formControlName="email" autocomplete="username" placeholder="you@example.com" />
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" formControlName="password" autocomplete="current-password" placeholder="••••••••" />
+        </label>
+
+        @if (error(); as errMsg) {
+          <p class="err" role="alert">{{ errMsg }}</p>
+        }
+
+        <button type="submit" class="btn primary wide" [disabled]="loading()">
+          {{ loading() ? 'Signing in…' : 'Continue' }}
+        </button>
+      </form>
+
+      <p class="footer">
+        New to Destinex? <a routerLink="/signup">Create an account</a>
+      </p>
+    </div>
+  </div>
+</div>

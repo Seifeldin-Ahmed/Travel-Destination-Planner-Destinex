@@ -1,0 +1,136 @@
+<p class="back">
+  <a routerLink="/destinations" [queryParams]="exploreBackQueryParams()">← Back to explore</a>
+</p>
+
+@if (message()) {
+  <p class="banner ok">{{ message() }}</p>
+}
+
+@if (loading()) {
+  <div class="state loading-state" aria-busy="true">
+    <div class="spinner" aria-hidden="true"></div>
+    <p>Loading destination…</p>
+  </div>
+} @else if (error(); as err) {
+  <div class="state error-state">
+    <h2>We could not open this place</h2>
+    <p>{{ err }}</p>
+    <a routerLink="/destinations" [queryParams]="exploreBackQueryParams()" class="btn primary">Back to explore</a>
+  </div>
+} @else if (destination(); as d) {
+  <article class="showcase">
+    <div class="showcase-hero">
+      @if (d.imageUrl && !heroImageBroken()) {
+        <div class="hero-media flag-frame">
+          <img
+            [src]="d.imageUrl"
+            alt=""
+            role="presentation"
+            loading="lazy"
+            decoding="async"
+            (error)="onFlagError()"
+          />
+        </div>
+      } @else {
+        <div class="hero-fallback" aria-hidden="true">
+          <span class="glyph">🌍</span>
+        </div>
+      }
+      <div class="hero-overlay">
+        <p class="chip">{{ d.region }}</p>
+        <h1>{{ d.country }}</h1>
+        <p class="hero-lead">
+          <span class="hero-lead-label">Capital city</span>
+          <span class="hero-lead-value">{{ d.capital }}</span>
+        </p>
+        <p class="hero-population">
+          <span class="hero-lead-label">Population</span>
+          <span class="hero-lead-value">{{ d.population | number }}</span>
+        </p>
+        <p class="hero-currency-line" title="Local currency">
+          <span class="currency-icon" aria-hidden="true">💱</span>
+          <span><strong>Currency:</strong> {{ d.currency }}</span>
+        </p>
+        <div class="actions">
+          @if (isAdmin()) {
+            <button type="button" class="btn ghost star" [class.on]="wants()" (click)="toggleWant()" title="Wishlist">
+              ★ {{ wants() ? 'Saved' : 'Save' }}
+            </button>
+            <button type="button" class="btn" (click)="openEdit()">Edit</button>
+            <button type="button" class="btn danger" (click)="deleteDestination()" [disabled]="busy">Delete</button>
+          } @else {
+            <button type="button" class="btn primary wish-cta" [class.on]="wants()" (click)="toggleWant()">
+              {{ wants() ? '★ Saved to wishlist' : '☆ Save to wishlist' }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <section class="facts-section" aria-labelledby="facts-heading">
+      <h2 id="facts-heading" class="facts-heading">Trip facts</h2>
+      <p class="facts-intro">Quick reference for planning your visit.</p>
+      <div class="fact-grid">
+        <div class="fact fact-highlight">
+          <span class="fact-label">Capital city</span>
+          <span class="fact-value">{{ d.capital }}</span>
+          <span class="fact-hint">Main government &amp; transport hub</span>
+        </div>
+        <div class="fact">
+          <span class="fact-label">Region</span>
+          <span class="fact-value">{{ d.region }}</span>
+          <span class="fact-hint">Geographic area</span>
+        </div>
+        <div class="fact">
+          <span class="fact-label">Population</span>
+          <span class="fact-value">{{ d.population | number }}</span>
+          <span class="fact-hint">Approximate residents</span>
+        </div>
+        <div class="fact fact-currency">
+          <span class="fact-label">Currency</span>
+          <span class="fact-value">{{ d.currency }}</span>
+          <span class="fact-hint">What locals use for day‑to‑day prices (cash &amp; cards vary)</span>
+        </div>
+      </div>
+    </section>
+  </article>
+}
+
+@if (editing && destination()) {
+  <div class="modal-backdrop" (click)="closeEdit()"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detail-edit-title">
+    <h2 id="detail-edit-title">Edit {{ destination()!.country }}</h2>
+    <form [formGroup]="form" (ngSubmit)="saveEdit()">
+      <label class="field">
+        <span>Name</span>
+        <input type="text" formControlName="name" />
+      </label>
+      <label class="field">
+        <span>Capital</span>
+        <input type="text" formControlName="capital" />
+      </label>
+      <label class="field">
+        <span>Region</span>
+        <input type="text" formControlName="region" />
+      </label>
+      <label class="field">
+        <span>Population</span>
+        <input type="number" formControlName="population" />
+      </label>
+      <label class="field">
+        <span>Currency</span>
+        <input type="text" formControlName="currency" />
+      </label>
+      <label class="field">
+        <span>Flag image URL (optional)</span>
+        <input type="url" formControlName="flag" placeholder="https://…png" />
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn" (click)="closeEdit()">Cancel</button>
+        <button type="submit" class="btn primary" [disabled]="busy || form.invalid">
+          {{ busy ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </div>
+}

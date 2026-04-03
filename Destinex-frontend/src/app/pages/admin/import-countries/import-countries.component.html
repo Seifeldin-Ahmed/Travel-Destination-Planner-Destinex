@@ -1,0 +1,81 @@
+<section class="intro">
+  <p class="eyebrow">Curator tools</p>
+  <h1>Add destinations to Destinex</h1>
+  <p class="muted">
+    Browse country suggestions from your backend, then save one destination or select several for a bulk import into
+    your catalog.
+  </p>
+  <div class="search-row">
+    <label class="sr-only" for="catalog-search">Search by country name</label>
+    <input
+      id="catalog-search"
+      type="search"
+      class="input"
+      placeholder="Search by country name…"
+      [(ngModel)]="catalogSearch"
+      (keydown)="onCatalogSearchKeydown($event)"
+      [disabled]="loading()"
+    />
+    <button type="button" class="btn" (click)="searchCatalog()" [disabled]="loading()">Search</button>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn" (click)="refresh()" [disabled]="loading()">Refresh list</button>
+    <button type="button" class="btn primary" (click)="saveSelected()" [disabled]="busy() || loading()">
+      Import selected
+    </button>
+  </div>
+</section>
+
+@if (error()) {
+  <p class="banner err">{{ error() }}</p>
+}
+@if (message()) {
+  <p class="banner ok">{{ message() }}</p>
+}
+
+@if (loading()) {
+  <p class="muted">Loading suggestions…</p>
+} @else {
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="chk"></th>
+          <th>Country</th>
+          <th>Capital</th>
+          <th>Region</th>
+          <th>Population</th>
+          <th>Currency</th>
+          <th>Flag</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of rows(); track rowKey(c)) {
+          <tr>
+            <td>
+              <input type="checkbox" [checked]="isSelected(c)" (change)="onCheck(c, $event)" />
+            </td>
+            <td>{{ c.name }}</td>
+            <td>{{ c.capital }}</td>
+            <td>{{ c.region }}</td>
+            <td>{{ c.population | number }}</td>
+            <td>{{ c.currency }}</td>
+            <td class="flag">
+              @if (c.flag) {
+                <a [href]="c.flag" target="_blank" rel="noopener">View</a>
+              }
+            </td>
+            <td>
+              <button type="button" class="btn small" (click)="saveOne(c)" [disabled]="busy()">Add</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="empty">No suggestions available.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
