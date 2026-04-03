@@ -45,6 +45,7 @@ public class ClientServiceImpl implements ClientService{
         newClient.setAddress(signedUser.getAddress());
         newClient.setPhoneNumber(signedUser.getPhoneNumber());
         Role clientRole = new Role("ROLE_USER");
+		clientRole.setId(1);
         newClient.addRole(clientRole);
         clientDao.save(newClient);
     }
